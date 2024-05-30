@@ -1,10 +1,15 @@
 import java.awt.event.KeyEvent;
+import java.util.Scanner;
 
 public class Casino {
     public Card aceOfHearts;
     public Card[] deck;
     public Player jai;
     public Player dealer;
+
+    public int hand = 3;
+    public int deck2 = 4;
+
 
     public static void main (String[] args) {
         Casino x = new Casino();
@@ -63,27 +68,38 @@ public class Casino {
         }
     }
 
+    // source: https://www.theserverside.com/tutorial/How-Javas-Systemin-reads-input-from-the-user#:~:text=What%20is%20System.in%3F,constructor%20of%20the%20Scanner%20class
     public void ask() {
-        int dealerIndex = 2;
-        int deckIndex = 4;
+        String ask = "hit";
 
-        int playerIndex = 2;
-        int deckIndex2 = 15;
+        while(ask.equals("hit")) {
+            System.out.println("Would you like to hit or stand?");
 
-        if(dealer.hand.cardsSum < 18) {
-            dealer.hand[dealerIndex] = deck[deckIndex];
-            dealerIndex++;
-            deckIndex++;
-        }
-        public void keyPressed(KeyEvent e) {
-            if(e.getKeyCode == 'h') {
-                jai.hand.[playerIndex] = deck[deckIndex2];
+            Scanner scanner = new Scanner(System.in);
+
+            ask = scanner.nextLine();
+            System.out.println("You decided to " + ask);
+
+            Card[] newArray = new Card[jai.hand.length+1];
+            for(int i = 0; i < newArray.length - 1; i++) {
+                newArray[i] = jai.hand[i];
             }
-            // if(e.getKeyCode == 's') {
+            newArray[newArray.length-1] = deck[deck2];
 
-            // }
-            playerIndex++;
-            deckIndex2++;
+            jai.hand = newArray;
+
+            hand++;
+            deck2++;
+
+            jai.print();
+        }
+
+        if(ask.equals("stand")) {
+// change length of hand for each of these
+            System.out.println("You decided to " + ask);
+            jai.print();
+        } else {
+            System.out.println("You did not say 'hit' or 'stand'.");
         }
     }
 }
