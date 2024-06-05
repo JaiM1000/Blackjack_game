@@ -1,4 +1,5 @@
 import java.awt.event.KeyEvent;
+import java.sql.SQLOutput;
 import java.util.Scanner;
 
 public class Casino {
@@ -38,6 +39,9 @@ public class Casino {
         jai.print();
         dealer.print();
         ask();
+        System.out.println("test");
+        dealerMoves();
+        checkWinner();
     }
 
     public void deal() {
@@ -91,6 +95,7 @@ public class Casino {
             hand++;
             deck2++;
 
+            jai.cardsSum += deck[deck2].value;
             jai.print();
         }
 
@@ -100,6 +105,53 @@ public class Casino {
             jai.print();
         } else {
             System.out.println("You did not say 'hit' or 'stand'.");
+        }
+    }
+
+    public void dealerMoves() {
+        if(dealer.cardsSum < 18) {
+            Card[] dealerArray = new Card[dealer.hand.length+1];
+            for(int i = 0; i < dealerArray.length - 1; i++) {
+                dealerArray[i] = dealer.hand[i];
+            }
+            dealerArray[dealerArray.length-1] = deck[deck2];
+
+            dealer.hand = dealerArray;
+
+            hand++;
+            deck2++;
+
+            dealer.cardsSum += dealer.hand[dealer.hand.length-1].value;
+
+            dealer.print();
+        }
+    }
+
+    public void checkWinner() {
+        if(jai.cardsSum < 21 && dealer.cardsSum < 21) {
+            if(jai.cardsSum > dealer.cardsSum) {
+                System.out.println("You win!");
+            } else if(jai.cardsSum < dealer.cardsSum) {
+                System.out.println("You lose :(");
+            }
+        }
+        if(jai.cardsSum > 21 && dealer.cardsSum > 21) {
+            System.out.println("You tied with the dealer!");
+        }
+        if((dealer.cardsSum < 21 || jai.cardsSum < 21) && jai.cardsSum > 21) {
+            System.out.println("You lose :(");
+        }
+        if(dealer.cardsSum > 21 && (jai.cardsSum < 21 || jai.cardsSum < 21)) {
+            System.out.println("You win!");
+        }
+        if(dealer.cardsSum == 21 && jai.cardsSum != 21) {
+            System.out.println("You lose :(");
+        }
+        if(dealer.cardsSum == 21 && jai.cardsSum == 21) {
+            System.out.println("You win!");
+        }
+        if(dealer.cardsSum == jai.cardsSum) {
+            System.out.println("You tied with the dealer!");
         }
     }
 }
